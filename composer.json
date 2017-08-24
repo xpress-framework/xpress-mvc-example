@@ -1,0 +1,26 @@
+{
+	"name": "xpress-framework/xpress-mvc-example",
+	"type": "wordpress-theme",
+	"license": "GPLv2",
+	"description": "To Do list implemented on XPress MVC.",
+	"homepage": "https://github.com/xpress-framework/xpress-mvc-example/",
+	"authors": [
+		{
+			"name": "Juan Manuel Arias",
+			"email": "trasgofurioso@gmail.com"
+		},
+	    {
+	      "name": "Thiago Benvenuto",
+	      "email": "brazabr@gmail.com"
+	    }
+	],
+	"keywords": [
+		"wordpress", "xpress", "mvc", "controller", "view", "rest", "api"
+	],
+	"support": {
+		"issues": "https://github.com/xpress-framework/xpress-mvc-example/issues"
+	},
+	"require": {
+	},
+	"minimum-stability": "dev"
+}
