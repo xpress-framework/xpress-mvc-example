@@ -13,3 +13,4 @@ function xpress_mvc_example_enqueue_styles() {
 add_action( 'wp_enqueue_scripts', 'xpress_mvc_example_enqueue_styles' );
 
 require 'xpress/post-types/task.php';
+require 'xpress/controllers/tasks.php';

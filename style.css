@@ -11,3 +11,8 @@
  Tags:         light, dark, two-columns, right-sidebar, responsive-layout, accessibility-ready
  Text Domain:  xpress-mvc-example-child
 */
+
+.destroy-link:before {
+	font-family: 'Genericons';
+	content: "\f407";
+}
