@@ -9,6 +9,6 @@ global $xpress_viewmodel;
 
 <? if ( isset( $xpress_viewmodel['errors'] ) ) : foreach ( $xpress_viewmodel['errors'] as $error ) : ?>
 
-	<span class="error"><? echo esc_html( $error ); ?></span>
+	<span class="error error-icon"><? echo esc_html( $error ); ?></span>
 
 <?php endforeach; endif; ?>

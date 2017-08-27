@@ -59,3 +59,17 @@ article.type-task .entry-footer button:hover {
 	background-color: #333;
 	color: #fff;
 }
+
+.error {
+	margin-top: 10px;
+	padding: 5px;
+	display: block;
+	background-color: #ccc;
+}
+
+.error-icon:before {
+	font-family: 'Genericons';
+	content: "\f456";
+	vertical-align: bottom;
+	margin-right: 10px;
+}
