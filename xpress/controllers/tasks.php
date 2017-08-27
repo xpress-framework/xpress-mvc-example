@@ -53,7 +53,7 @@ class Tasks_Controller extends Xpress_MVC_Controller {
 			$data = array(
 				'errors' => $errors,
 			);
-			return $this->ok( $data, 'edit-task' );
+			return $this->ok( $data, 'new-task' );
 		}
 
 		$task = wp_insert_post( array(

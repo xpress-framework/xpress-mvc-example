@@ -9,13 +9,14 @@ get_header();
 global $xpress_viewmodel;
 ?>
 
-	<div id="primary" class="content-area">
+	<section id="primary" class="content-area">
 		<main id="main" class="site-main" role="main">
-			<article <?php post_class(); ?>>
-				<header class="entry-header">
-					<h1>New Task</h1>
-				</header><!-- .entry-header -->
-				<form action="<?php esc_attr_e( xpress_mvc_get_route_permalink( 'create-task' ) );?>" method="POST">
+			<header class="page-header tasks-header">
+				<h1 class="page-title"><?php _e( 'New Task', 'twentyfifteen' ); ?></h1>
+			</header><!-- .page-header -->
+
+			<article>
+				<form action="<?php esc_attr_e( xpress_mvc_get_route_permalink( 'create-task' ) );?>" method="POST" class="task type-task hentry">
 					<div class="entry-content">
 						<input type="text" name="title" placeholder="Enter task here...">
 

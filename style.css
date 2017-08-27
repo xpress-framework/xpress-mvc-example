@@ -16,3 +16,60 @@
 	font-family: 'Genericons';
 	content: "\f407";
 }
+
+.tasks-header {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 50px;
+}
+
+.tasks-header h1 {
+	font-size: 39px;
+}
+
+.entry-footer {
+	display: flex;
+	justify-content: flex-end;
+}
+
+article.type-task {
+	padding-top: 0;
+	margin-top: 10px !important;
+	display: flex;
+	justify-content: space-between;
+}
+
+article.type-task .entry-title {
+	font-size: 25px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+article.type-task .entry-footer {
+	padding: 0;
+}
+
+article.type-task .entry-footer button {
+	height: 100%;
+	background-color: transparent;
+	color: #000;
+}
+
+article.type-task .entry-footer button:hover {
+	background-color: #333;
+	color: #fff;
+}
+
+.error {
+	margin-top: 10px;
+	padding: 5px;
+	display: block;
+	background-color: #ccc;
+}
+
+.error-icon:before {
+	font-family: 'Genericons';
+	content: "\f456";
+	vertical-align: bottom;
+	margin-right: 10px;
+}
