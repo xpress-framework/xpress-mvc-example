@@ -5,7 +5,6 @@
  */
 
 class Tasks_Controller extends XPress_MVC_Controller {
-	public $task;
 	public $errors;
 
 	function register_routes() {
@@ -33,7 +32,6 @@ class Tasks_Controller extends XPress_MVC_Controller {
 		) );
 
 		add_filter( 'xpress_mvc_request_before_callbacks', array( $this, 'send_validation_errors_to_route_callback' ), 10, 3 );
-		add_filter( 'xpress_mvc_request_before_callbacks', array( $this, 'get_task' ), 10, 3 );
 	}
 
 	function new( WP_REST_Request $request ) {
@@ -59,51 +57,65 @@ class Tasks_Controller extends XPress_MVC_Controller {
 	}
 
 	function edit( WP_REST_Request $request ) {
+		$task = $this->get_task( $request );
+
+		if ( is_wp_error( $task ) ) {
+			return $task;
+		}
+
 		$data = array(
-			'task' => $this->task,
+			'task' => $task,
 		);
 
 		return $this->ok( $data );
 	}
 
 	function update( WP_REST_Request $request ) {
+		$task = $this->get_task( $request );
+
+		if ( is_wp_error( $task ) ) {
+			return $task;
+		}
+
 		if ( ! empty( $this->errors ) ) {
 			$data = array(
-				'task' => $this->task,
+				'task' => $task,
 				'errors' => $this->errors,
 			);
 			return $this->ok( $data, 'edit-task' );
 		}
 
-		$this->task->post_title = wp_strip_all_tags( $request->get_param( 'title' ) );
+		$task->post_title = wp_strip_all_tags( $request->get_param( 'title' ) );
 
-		$task = wp_update_post( $this->task );
+		wp_update_post( $task );
 
-		xpress_mvc_example_update_post_meta( $this->task->ID, 'checked', $request->get_param( 'checked' ) );
+		xpress_mvc_example_update_post_meta( $task->ID, 'checked', $request->get_param( 'checked' ) );
 
 		return $this->redirect( get_post_type_archive_link( 'task' ) );
 	}
 
 	function destroy( WP_REST_Request $request ) {
-		wp_delete_post( $this->task->ID );
+		$task = $this->get_task( $request );
+
+		if ( is_wp_error( $task ) ) {
+			return $task;
+		}
+
+		wp_delete_post( $task->ID );
 
 		return $this->redirect( get_post_type_archive_link( 'task' ) );
 	}
 
-	function get_task( $response, $handler, $request ) {
-		switch ( $handler['callback'][1] ) {
-			case 'edit':
-			case 'update':
-			case 'destroy':
-				$this->task = get_page_by_path( $request->get_param( 'slug' ), OBJECT, 'task' );
-				if ( empty( $this->task ) ) {
-					$response = new WP_Error( 'not_found', __( 'Resource not found.' ), array(
-						'status' => 404,
-					) );
-				}
-			break;
+	function get_task( $request ) {
+		$task = get_page_by_path( $request->get_param( 'slug' ), OBJECT, 'task' );
+
+		if ( empty( $task ) ) {
+			$task = new WP_Error( 'not_found', __( 'Resource not found.' ), array(
+				'status' => 404,
+			) );
 		}
-		return $response;
+
+		return $task;
 	}
 
 	function send_validation_errors_to_route_callback( $response, $handler, $request ) {
