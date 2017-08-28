@@ -10,40 +10,26 @@ class Tasks_Controller extends XPress_MVC_Controller {
 
 	function register_routes() {
 		$this->register_route( 'new-task', '/tasks/new', array(
-			'methods' => 'GET',
+			'methods'  => 'GET',
 			'callback' => array( $this, 'new' ),
 		) );
 		$this->register_route( 'create-task', '/tasks', array(
-			'methods' => 'POST',
+			'methods'  => 'POST',
 			'callback' => array( $this, 'create' ),
-			'args' => array(
-				'title' => array(
-					'validate_callback' => function( $param, $request, $key ) {
-						return ! empty( $param );
-					}
-				),
-				'checked',
-			),
+			'args'     => $this->task_params(),
 		) );
 		$this->register_route( 'edit-task', '/tasks/(?P<slug>.+)/edit', array(
-			'methods' => 'GET',
+			'methods'  => 'GET',
 			'callback' => array( $this, 'edit' ),
 		) );
 		$this->register_route( 'destroy-task', '/tasks/(?P<slug>.+)/destroy', array(
-			'methods' => 'POST',
+			'methods'  => 'POST',
 			'callback' => array( $this, 'destroy' ),
 		) );
 		$this->register_route( 'update-task', '/tasks/(?P<slug>.+)', array(
-			'methods' => 'POST',
+			'methods'  => 'POST',
 			'callback' => array( $this, 'update' ),
-			'args' => array(
-				'title' => array(
-					'validate_callback' => function( $param, $request, $key ) {
-						return ! empty( $param );
-					}
-				),
-				'checked',
-			),
+			'args'     => $this->task_params(),
 		) );
 
 		add_filter( 'xpress_mvc_request_before_callbacks', array( $this, 'send_validation_errors_to_route_callback' ), 10, 3 );
@@ -93,11 +79,7 @@ class Tasks_Controller extends XPress_MVC_Controller {
 
 		$task = wp_update_post( $this->task );
 
-		if ( empty( $request->get_param( 'checked' ) ) ) {
-			xpress_mvc_example_update_post_meta( $this->task->ID, 'checked', '' );
-		} else {
-			xpress_mvc_example_update_post_meta( $this->task->ID, 'checked', '1' );
-		}
+		xpress_mvc_example_update_post_meta( $this->task->ID, 'checked', $request->get_param( 'checked' ) );
 
 		return $this->redirect( get_post_type_archive_link( 'task' ) );
 	}
@@ -130,6 +112,22 @@ class Tasks_Controller extends XPress_MVC_Controller {
 			$response = null;
 		}
 		return $response;
+	}
+
+	function task_params() {
+		return array(
+			'title' => array(
+				'validate_callback' => function( $param, $request, $key ) {
+					return ! empty( $param );
+				},
+				'sanitize_callback'  => 'sanitize_text_field'
+			),
+			'checked' => array(
+				'sanitize_callback' => function( $param, $request, $key ) {
+					return 'true' === $param;
+				}
+			),
+		);
 	}
 }
 new Tasks_Controller();
