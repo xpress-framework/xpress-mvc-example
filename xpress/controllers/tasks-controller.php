@@ -4,8 +4,9 @@
  *
  */
 
-class Tasks_Controller extends Xpress_MVC_Controller {
+class Tasks_Controller extends XPress_MVC_Controller {
 	public $task;
+	public $errors;
 
 	function register_routes() {
 		$this->register_route( 'new-task', '/tasks/new', array(
@@ -16,7 +17,12 @@ class Tasks_Controller extends Xpress_MVC_Controller {
 			'methods' => 'POST',
 			'callback' => array( $this, 'create' ),
 			'args' => array(
-				'title',
+				'title' => array(
+					'validate_callback' => function( $param, $request, $key ) {
+						return ! empty( $param );
+					}
+				),
+				'checked',
 			),
 		) );
 		$this->register_route( 'edit-task', '/tasks/(?P<slug>.+)/edit', array(
@@ -31,28 +37,27 @@ class Tasks_Controller extends Xpress_MVC_Controller {
 			'methods' => 'POST',
 			'callback' => array( $this, 'update' ),
 			'args' => array(
-				'title',
+				'title' => array(
+					'validate_callback' => function( $param, $request, $key ) {
+						return ! empty( $param );
+					}
+				),
 				'checked',
 			),
 		) );
 
+		add_filter( 'xpress_mvc_request_before_callbacks', array( $this, 'send_validation_errors_to_route_callback' ), 10, 3 );
 		add_filter( 'xpress_mvc_request_before_callbacks', array( $this, 'get_task' ), 10, 3 );
 	}
 
 	function new( WP_REST_Request $request ) {
-		return $this->ok();
+		return $this->ok( null, 'new-task' );
 	}
 
 	function create( WP_REST_Request $request ) {
-		$errors = null;
-
-		if ( empty( $request->get_param( 'title' ) ) ) {
-			$errors[] = 'Title is required.';
-		}
-
-		if ( ! empty( ( $errors ) ) ) {
+		if ( ! empty( $this->errors ) ) {
 			$data = array(
-				'errors' => $errors,
+				'errors' => $this->errors,
 			);
 			return $this->ok( $data, 'new-task' );
 		}
@@ -76,16 +81,10 @@ class Tasks_Controller extends Xpress_MVC_Controller {
 	}
 
 	function update( WP_REST_Request $request ) {
-		$errors = null;
-
-		if ( empty( $request->get_param( 'title' ) ) ) {
-			$errors[] = 'Title is required.';
-		}
-
-		if ( ! empty( ( $errors ) ) ) {
+		if ( ! empty( $this->errors ) ) {
 			$data = array(
 				'task' => $this->task,
-				'errors' => $errors,
+				'errors' => $this->errors,
 			);
 			return $this->ok( $data, 'edit-task' );
 		}
@@ -121,6 +120,14 @@ class Tasks_Controller extends Xpress_MVC_Controller {
 					) );
 				}
 			break;
+		}
+		return $response;
+	}
+
+	function send_validation_errors_to_route_callback( $response, $handler, $request ) {
+		if ( is_wp_error ( $response ) && array_key_exists( 'rest_invalid_param', $response->errors ) ) {
+			$this->errors = $response;
+			$response = null;
 		}
 		return $response;
 	}
