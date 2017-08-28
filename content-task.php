@@ -13,13 +13,12 @@
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
 	<header class="entry-header">
-		<?php
-			if ( is_single() ) :
-				the_title( '<h1 class="entry-title">', '</h1>' );
-			else :
-				the_title( sprintf( '<h2 class="entry-title"><a href="%s" rel="bookmark">', esc_url( get_permalink() ) ), '</a></h2>' );
-			endif;
-		?>
+		<form action="<?php echo esc_url( xpress_mvc_get_route_permalink( 'update-task', array( 'slug' => $post->post_name ) ) );?>" method="POST">
+			<input type="hidden" name="checked" value="<?php echo xpress_mvc_example_is_checked( $post ) ? '' : '1';?>">
+			<input type="hidden" name="title" value="<?php the_title();?>">
+			<button type="submit"><span class="check-link <?php echo xpress_mvc_example_is_checked( $post ) ? 'checked-task' : '';?>"></span></button>
+		</form>
+		<?php the_title( sprintf( '<h2 class="entry-title">', '</h2>' ) ); ?>
 	</header><!-- .entry-header -->
 
 	<footer class="entry-footer">

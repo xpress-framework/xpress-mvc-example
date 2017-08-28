@@ -15,6 +15,22 @@
 .destroy-link:before {
 	font-family: 'Genericons';
 	content: "\f407";
+	vertical-align: middle;
+}
+
+.checked-task:before {
+	font-family: 'Genericons';
+	content: "\f418";
+	vertical-align: middle;
+}
+
+.check-link {
+	display: block;
+	padding: 5px;
+	border: 1px solid #000;
+	border-radius: 3px;
+	width: 34px;
+	height: 34px;
 }
 
 .tasks-header {
@@ -37,6 +53,18 @@ article.type-task {
 	margin-top: 10px !important;
 	display: flex;
 	justify-content: space-between;
+}
+
+article.type-task .entry-header {
+	display: flex;
+}
+
+article.type-task .entry-header button {
+	height: 100%;
+	background-color: transparent;
+	color: #000;
+	padding: 0;
+	margin-right: 20px;
 }
 
 article.type-task .entry-title {

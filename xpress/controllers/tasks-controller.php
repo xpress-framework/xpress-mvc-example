@@ -32,6 +32,7 @@ class Tasks_Controller extends Xpress_MVC_Controller {
 			'callback' => array( $this, 'update' ),
 			'args' => array(
 				'title',
+				'checked',
 			),
 		) );
 
@@ -92,6 +93,12 @@ class Tasks_Controller extends Xpress_MVC_Controller {
 		$this->task->post_title = wp_strip_all_tags( $request->get_param( 'title' ) );
 
 		$task = wp_update_post( $this->task );
+
+		if ( empty( $request->get_param( 'checked' ) ) ) {
+			xpress_mvc_example_update_post_meta( $this->task->ID, 'checked', '' );
+		} else {
+			xpress_mvc_example_update_post_meta( $this->task->ID, 'checked', '1' );
+		}
 
 		return $this->redirect( get_post_type_archive_link( 'task' ) );
 	}
