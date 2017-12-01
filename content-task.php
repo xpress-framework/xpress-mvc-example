@@ -14,6 +14,7 @@
 
 	<header class="entry-header">
 		<form action="<?php echo esc_url( xpress_mvc_get_route_permalink( 'update-task', array( 'slug' => $post->post_name ) ) );?>" method="POST">
+			<input type="hidden" name="_method" value="PATCH">
 			<input type="hidden" name="checked" value="<?php echo xpress_mvc_example_is_checked( $post ) ? 'false' : 'true';?>">
 			<input type="hidden" name="title" value="<?php the_title();?>">
 			<button type="submit"><span class="check-link <?php echo xpress_mvc_example_is_checked( $post ) ? 'checked-task' : '';?>"></span></button>
@@ -26,6 +27,7 @@
 			<button type="submit"><span class="edit-link"></span></button>
 		</form>
 		<form action="<?php echo esc_url( xpress_mvc_get_route_permalink( 'destroy-task', array( 'slug' => $post->post_name ) ) );?>" method="POST">
+			<input type="hidden" name="_method" value="DELETE">
 			<button type="submit"><span class="destroy-link"></span></button>
 		</form>
 	</footer><!-- .entry-footer -->

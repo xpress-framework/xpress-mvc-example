@@ -21,21 +21,21 @@ class Tasks_Controller extends XPress_MVC_Controller {
 			'methods'  => 'GET',
 			'callback' => array( $this, 'edit' ),
 		) );
-		$this->register_route( 'destroy-task', '/tasks/(?P<slug>.+)/destroy', array(
-			'methods'  => 'POST',
-			'callback' => array( $this, 'destroy' ),
-		) );
-		$this->register_route( 'update-task', '/tasks/(?P<slug>.+)', array(
-			'methods'  => 'POST',
+		$this->register_route( 'update-task', '/tasks/(?P<slug>.+)/edit', array(
+			'methods'  => 'PATCH',
 			'callback' => array( $this, 'update' ),
 			'args'     => $this->task_params(),
+		) );
+		$this->register_route( 'destroy-task', '/tasks/(?P<slug>.+)', array(
+			'methods'  => 'DELETE',
+			'callback' => array( $this, 'destroy' ),
 		) );
 
 		add_filter( 'xpress_mvc_request_before_callbacks', array( $this, 'send_validation_errors_to_route_callback' ), 10, 3 );
 	}
 
 	function new( WP_REST_Request $request ) {
-		return $this->ok( null, 'new-task' );
+		return $this->ok();
 	}
 
 	function create( WP_REST_Request $request ) {
