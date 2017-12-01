@@ -17,7 +17,8 @@ global $xpress_viewmodel;
 			<article>
 				<form action="<?php echo esc_url( xpress_mvc_get_route_permalink( 'update-task', array( 'slug' => $xpress_viewmodel['task']->post_name ) ) );?>" method="POST" class="task type-task hentry">
 					<div class="entry-content">
-						<input type="hidden" name="checked" value="<?php echo xpress_mvc_example_is_checked( $xpress_viewmodel['task'] ) ? '1' : '';?>">
+						<input type="hidden" name="_method" value="PATCH">
+						<input type="hidden" name="checked" value="<?php echo xpress_mvc_example_is_checked( $xpress_viewmodel['task'] ) ? 'true' : 'false';?>">
 						<input type="text" name="title" placeholder="Enter task here..." value="<?php esc_attr_e( $xpress_viewmodel['task']->post_title );?>">
 
 						<?php get_template_part( 'xpress/templates/partials/form-errors', 'task' ); ?>
