@@ -9,14 +9,14 @@ get_header(); ?>
 	<section id="primary" class="content-area">
 		<main id="main" class="site-main" role="main">
 
-		<?php if ( have_posts() ) : ?>
+		<header class="page-header tasks-header">
+			<h1 class="page-title"><?php _e( 'Tasks', 'twentyfifteen' ); ?></h1>
+			<form action="<?php echo esc_url( xpress_mvc_get_route_permalink( 'new-task' ) );?>" method="GET">
+				<button type="submit"><span class=""><?php _e( 'New', 'twentyfifteen' ); ?></span></button>
+			</form>
+		</header><!-- .page-header -->
 
-			<header class="page-header tasks-header">
-				<h1 class="page-title"><?php _e( 'Tasks', 'twentyfifteen' ); ?></h1>
-				<form action="<?php echo esc_url( xpress_mvc_get_route_permalink( 'new-task' ) );?>" method="GET">
-					<button type="submit"><span class=""><?php _e( 'New', 'twentyfifteen' ); ?></span></button>
-				</form>
-			</header><!-- .page-header -->
+		<?php if ( have_posts() ) : ?>
 
 			<?php
 			// Start the Loop.
