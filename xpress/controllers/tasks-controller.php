@@ -65,9 +65,7 @@ class Tasks_Controller extends XPress_MVC_Controller {
 			return $this->not_found();
 		}
 
-		$params = $request->get_params();
-		unset( $params['_method'] );
-		$task->update( $params );
+		$task->update( $request->get_params() );
 
 
 		if ( $task->is_valid() ) {
