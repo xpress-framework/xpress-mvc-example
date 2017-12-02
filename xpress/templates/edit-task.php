@@ -15,11 +15,12 @@ global $xpress_viewmodel;
 			</header><!-- .page-header -->
 
 			<article>
-				<form action="<?php echo esc_url( xpress_mvc_get_route_permalink( 'update-task', array( 'slug' => $xpress_viewmodel['task']->post_name ) ) );?>" method="POST" class="task type-task hentry">
+				<form action="<?php echo esc_url( xpress_mvc_get_route_permalink( 'update-task', array( 'slug' => $xpress_viewmodel->slug ) ) );?>" method="POST" class="task type-task hentry">
 					<div class="entry-content">
 						<input type="hidden" name="_method" value="PATCH">
-						<input type="hidden" name="checked" value="<?php echo xpress_mvc_example_is_checked( $xpress_viewmodel['task'] ) ? 'true' : 'false';?>">
-						<input type="text" name="title" placeholder="Enter task here..." value="<?php esc_attr_e( $xpress_viewmodel['task']->post_title );?>">
+						<input type="hidden" name="completed" value="<?php echo xpress_mvc_example_is_checked( $xpress_viewmodel ) ? 'true' : 'false';?>">
+						<input type="hidden" name="id" value="<?php esc_attr_e( $xpress_viewmodel->id );?>">
+						<input type="text" name="title" placeholder="Enter task here..." value="<?php esc_attr_e( $xpress_viewmodel->title );?>">
 
 						<?php get_template_part( 'xpress/templates/partials/form-errors', 'task' ); ?>
 
