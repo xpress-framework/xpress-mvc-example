@@ -42,9 +42,7 @@ class Task_Model extends XPress_MVC_Model {
 		$post = get_page_by_path( $id, OBJECT, 'task' );
 
 		if ( empty( $post ) ) {
-			return new WP_Error( 'not_found', __( 'Resource not found.' ), array(
-				'status' => 404,
-			) );
+			return new WP_Error( 'not_found', __( 'Resource not found.' ) );
 		}
 
 		$task = Task_Model::from_post( $post );

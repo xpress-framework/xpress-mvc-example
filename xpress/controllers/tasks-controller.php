@@ -50,8 +50,9 @@ class Tasks_Controller extends XPress_MVC_Controller {
 	function edit( WP_REST_Request $request ) {
 		$task = Task_Model::get( $request->get_param( 'slug' ) );
 
+
 		if ( is_wp_error( $task ) ) {
-			return $task;
+			return $this->not_found();
 		}
 
 		return $this->ok( $task );
@@ -61,7 +62,7 @@ class Tasks_Controller extends XPress_MVC_Controller {
 		$task = Task_Model::get( $request->get_param( 'slug' ) );
 
 		if ( is_wp_error( $task ) ) {
-			return $task;
+			return $this->not_found();
 		}
 
 		$params = $request->get_params();
@@ -81,7 +82,7 @@ class Tasks_Controller extends XPress_MVC_Controller {
 		$task = Task_Model::get( $request->get_param( 'slug' ) );
 
 		if ( is_wp_error( $task ) ) {
-			return $task;
+			return $this->not_found();
 		}
 
 		$task->delete();
